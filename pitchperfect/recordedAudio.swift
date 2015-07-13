@@ -8,9 +8,12 @@
 
 import Foundation
 
+// Class that holds the audio info
 class RecordedAudio: NSObject{
     var filePathUrl: NSURL!
     var title: String!
+    
+    // Class initializer
     init(title:String, filePathUrl:NSURL) {
         self.filePathUrl = filePathUrl
         self.title = title

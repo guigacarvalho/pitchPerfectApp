@@ -16,13 +16,14 @@ class playSoundsViewController: UIViewController {
     var pitchPlayer:AVAudioPlayerNode!
     var audioEngine:AVAudioEngine!
     
+    // Receives audio file from previous View Controller
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl, error: nil)
         audioPlayer.enableRate = true
     }
-
+    
+    // Actions for playing with varying pitch and speed and stop playback
     @IBAction func stopPlaying(sender: AnyObject) {
         audioPlayer.stop()
         pitchPlayer.stop()
@@ -43,32 +44,32 @@ class playSoundsViewController: UIViewController {
         playWithPitch(-1000)
     }
     
+    
+    // Auxiliary methods for playing with varying speed and pitch
     func playAudioAtRate(rate:Float) {
         audioPlayer.stop()
         audioPlayer.rate = rate
         audioPlayer.play()
-
     }
     
     func playWithPitch (pitch:Float) {
+        // Setting up audio engine
         audioPlayer.stop()
-        
         audioEngine = AVAudioEngine()
         pitchPlayer = AVAudioPlayerNode()
         audioEngine.stop()
         audioEngine.reset()
-        
         audioEngine.attachNode(pitchPlayer)
         
+        // Adjusting audio pitch
         var timePitch = AVAudioUnitTimePitch()
         timePitch.pitch = pitch
         audioEngine.attachNode(timePitch)
-        
         audioEngine.connect(pitchPlayer, to: timePitch, format: nil)
         audioEngine.connect(timePitch, to: audioEngine.outputNode, format: nil)
         
+        // Playing audio
         var myAudioFile = AVAudioFile(forReading: receivedAudio.filePathUrl, error: nil)
-        
         pitchPlayer.scheduleFile(myAudioFile, atTime: nil, completionHandler: nil)
         audioEngine.startAndReturnError(nil)
         pitchPlayer.play()
@@ -77,16 +78,6 @@ class playSoundsViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
