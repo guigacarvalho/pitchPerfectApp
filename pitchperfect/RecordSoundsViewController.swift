@@ -18,6 +18,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     var audioRecorder:AVAudioRecorder!
     var recAudio:RecordedAudio!
     
+    // Boilerplate view controller code
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -28,14 +29,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     // UI adjustments before showing the view
     override func viewWillAppear(animated: Bool) {
-        recordingLabel.text = "tap the mic to start"
-        stopButton.hidden = true
+        resetUI()
     }
     
     // Stop buttion tapped action
     @IBAction func stopRecording(sender: AnyObject) {
-        recordingLabel.text = "tap the mic to start"
-        stopButton.hidden = true
+        resetUI()
         micButton.enabled = true
         audioRecorder.stop()
         var audioSession = AVAudioSession.sharedInstance()
@@ -65,6 +64,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.prepareToRecord()
         audioRecorder.record()
     
+    }
+    
+    // Reset UI for its original state
+    func resetUI () {
+        recordingLabel.text = "tap the mic to start"
+        stopButton.hidden = true
     }
     
     // After processing the recorded audio, show next screen

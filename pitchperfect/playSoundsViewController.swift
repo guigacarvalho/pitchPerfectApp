@@ -32,14 +32,12 @@ class playSoundsViewController: UIViewController {
         pitchPlayer.stop()
     }
     @IBAction func playFastAudio(sender: AnyObject) {
-        audioEngine.stop()
-        audioEngine.reset()
+        resetAudioEngine(self.audioEngine)
         playAudioAtRate(2)
     }
     
     @IBAction func playSlowSound(sender: AnyObject) {
-        audioEngine.stop()
-        audioEngine.reset()
+        resetAudioEngine(self.audioEngine)
         playAudioAtRate(0.5)
     }
     
@@ -64,8 +62,7 @@ class playSoundsViewController: UIViewController {
         audioPlayer.stop()
         audioEngine = AVAudioEngine()
         pitchPlayer = AVAudioPlayerNode()
-        audioEngine.stop()
-        audioEngine.reset()
+        resetAudioEngine(audioEngine)
         audioEngine.attachNode(pitchPlayer)
         
         // Adjusting audio pitch
@@ -81,6 +78,11 @@ class playSoundsViewController: UIViewController {
         audioEngine.startAndReturnError(nil)
         pitchPlayer.play()
     
+    }
+    // Resetting Audio Engine
+    func resetAudioEngine(audioEngine:AVAudioEngine) {
+        audioEngine.stop()
+        audioEngine.reset()
     }
     
     override func didReceiveMemoryWarning() {
