@@ -16,11 +16,14 @@ class playSoundsViewController: UIViewController {
     var pitchPlayer:AVAudioPlayerNode!
     var audioEngine:AVAudioEngine!
     
-    // Receives audio file from previous View Controller
+    
+    // Receives audio file from previous View Controller and setting up audio engine
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathUrl, error: nil)
         audioPlayer.enableRate = true
+        audioEngine = AVAudioEngine()
+        pitchPlayer = AVAudioPlayerNode()
     }
     
     // Actions for playing with varying pitch and speed and stop playback
@@ -29,10 +32,14 @@ class playSoundsViewController: UIViewController {
         pitchPlayer.stop()
     }
     @IBAction func playFastAudio(sender: AnyObject) {
+        audioEngine.stop()
+        audioEngine.reset()
         playAudioAtRate(2)
     }
     
     @IBAction func playSlowSound(sender: AnyObject) {
+        audioEngine.stop()
+        audioEngine.reset()
         playAudioAtRate(0.5)
     }
     
